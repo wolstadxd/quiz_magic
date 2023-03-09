@@ -1,17 +1,22 @@
-import './App.css';
-import { useState } from "react";
+import './App.scss';
+import { useRef, useState} from "react";
 import axios from "axios";
-
 function App() {
 
-    const [argument, setArgument] = useState('');
-    const [time, setTime] = useState('');
+    const [argument, setArgument] = useState();
+    // const [isChecked, setIsChecked] = useState(false);
+    const [time, setTime] = useState();
     const [name, setName] = useState('');
     const [mail, setMail] = useState('');
+    const radioCheckedYes = useRef(null)
+    const radioCheckedNo = useRef(null)
+    const radioCheckedTimeFirst = useRef(null)
+    const radioCheckedTimeSecond = useRef(null)
 
     const TOKEN = `5933738226:AAHWvvaqOo8m9zgI3AeXiM9cYBqM7QAMeSI`
     const CHAT_ID = '-1001502848599'
     const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`
+
 
     const handleChangeYesNo = (event) => {
         setArgument(event.target.value)
@@ -36,35 +41,116 @@ function App() {
         message += `${argument}, time: ${time}`
         message += `Name: ${name}, Mail: ${mail}`
 
-        console.log(message)
+
 
         axios.post(URI_API, {
             chat_id: CHAT_ID,
             parse_mode: 'html',
-            text: message
+            text: message,
+            disable_notification: true
+        }).then(res => {
+            // radioCheckedYes.current.checked = false
+            // radioCheckedNo.current.checked = false
+            radioCheckedTimeFirst.current.checked = false
+            radioCheckedTimeSecond.current.checked = false
+            setName('')
+            setMail('')
+        }).catch((err) => {
+            console.warn(err)
+        }).finally(() => {
         })
 
     }
 
 
     return (
-        <form onSubmit={e => onSubmit(e)}>
-            <div className={'yes-or-no'}>
-                <h3>Чи цікаво було б вам прийти на консультацію?</h3>
-                <input type="radio" value="Yes" onChange={e => handleChangeYesNo(e)} name="yes_or_no" /> Yes
-                <input type="radio" value="No" onChange={e => handleChangeYesNo(e)} name="yes_or_no" /> No
+        <>
+            <div className="section-main">
+                <div className="container">
+                    <div className="main-wrapper">
+                        <div className="main-left">
+                            <h1>Здесь будет какой-то текст</h1>
+                            <p>Расскройте все ваши тайны вместе с потомственными ясновидящими в третьем поколении уже сегодня</p>
+                            <button>
+                                Оставить заявку
+                                <div></div>
+                            </button>
+                        </div>
+                        <div className="main-right">
+                            <h1>Наши експерты</h1>
+                            <div className="experts-block">
+                                <div className="experts-item">
+                                    <div className="experts-item-image image-first"></div>
+                                    <h2>Хаял Алекперов</h2>
+                                    <p>Потомственный ясновидящий и екстрасенс с уникальным даром от Бога</p>
+                                </div>
+                                <div className="experts-item">
+                                    <div className="experts-item-image image-second"></div>
+                                    <h2>Хаял Алекперов</h2>
+                                    <p>Потомственный ясновидящий и екстрасенс с уникальным даром от Бога</p>
+                                </div>
+                                <div className="experts-item">
+                                    <div className="experts-item-image image-third"></div>
+                                    <h2>Хаял Алекперов</h2>
+                                    <p>Потомственный ясновидящий и екстрасенс с уникальным даром от Бога</p>
+                                </div>
+                            </div>
+                            <div className="skill-block">
+                                <div className="skill-item">
+                                    <div className="skill-item-image image-skill-first"></div>
+                                    <p>Карты Таро могут предоставить понимание и указания относительно сфер нашей жизни, о которых мы можем не полностью осознавать или с которыми боремся. Архетипические образы, изображенные на картах, могут отражать самые сокровенные желания, страхи и стремления.</p>
+                                </div>
+                                <div className="skill-item">
+                                    <div className="skill-item-image image-skill-second"></div>
+                                    <p>Гадание – это увлекательная и древняя практика, которая предлагает понимание, руководство и более глубокое понимание себя и мира вокруг нас, также это способность проникать в подсознание и раскрывать скрытые истины и идеи.</p>
+                                </div>
+                                <div className="skill-item">
+                                    <div className="skill-item-image image-skill-third"></div>
+                                    <p>Исцеление – это процесс восстановления физического, умственного, эмоционального или духовного благополучия. Это сложная и многомерная концепция, которая может включать в себя различные подходы, включая медицинское лечение, альтернативную терапию и духовные практики.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className={'what-time'}>
-                <h3>Напишіть в який час зручно буде прийняти наш дзвінок?</h3>
-                <input type="radio" value="11-12" onChange={e => handleChangeWhatTime(e)} name="what-time" /> 11-12 AM
-                <input type="radio" value="12-14" onChange={e => handleChangeWhatTime(e)} name="what-time" /> 12-14 AM
+
+            <div className="section-form">
+                <div className="container">
+                    <div className="form-wrapper">
+                        <form onSubmit={e => onSubmit(e)}>
+                            <div className={'name-number'}>
+                                <h1>Оставьте заявку на консультацию</h1>
+                                <input type="name" placeholder={"Ваше имя"} value={name} onChange={e => handleChangeValueName(e)} name="name"/>
+                                <input type="number" placeholder={"Ваш номер телефона"} value={mail} onChange={e => handleChangeValueMail(e)} name="mail" />
+                                <h3>В какое время вам удобно принять наш звонок?</h3>
+                            </div>
+                            <div className={'what-time'}>
+                                <div className={'what-time-first'}>
+                                    <input ref={radioCheckedTimeFirst} type="radio" value="11-12" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'} />
+                                    <label htmlFor="radio">11-12 AM</label>
+                                </div>
+                                <div className={'what-time-second'}>
+                                    <input ref={radioCheckedTimeSecond} type="radio" value="12-14" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'}/>
+                                    <label htmlFor="radio">12-14 AM</label>
+                                </div>
+
+                            </div>
+
+                            {/*<div className={'yes-or-no'}>*/}
+                            {/*    <h3>Чи цікаво було б вам прийти на консультацію?</h3>*/}
+                            {/*    <input ref={radioCheckedYes} type="radio" value="Yes" onChange={e => handleChangeYesNo(e)} name="yes_or_no" id={'radio'}/> Yes*/}
+                            {/*    <input ref={radioCheckedNo} type="radio" value="No" onChange={e => handleChangeYesNo(e)} name="yes_or_no" id={'radio'} /> No*/}
+                            {/*</div>*/}
+
+                            <button type={'submit'}>Отправить данные</button>
+                        </form>
+                        <div className="form-right-image">
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className={'what-time'}>
-                <input type="name" placeholder={"Напишіть ваш ім'я"} value={name} onChange={e => handleChangeValueName(e)} name="name" />
-                <input type="email" placeholder={"Напишіть ваш номер телефону"} value={mail} onChange={e => handleChangeValueMail(e)} name="mail" />
-            </div>
-            <button type={'submit'}>Send</button>
-        </form>
+        </>
     )
 }
 
