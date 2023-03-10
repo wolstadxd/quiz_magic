@@ -62,6 +62,13 @@ function App() {
 
     }
 
+    const handleClickScroll = () => {
+        const form = document.getElementById('section-form');
+        if (form) {
+            form.scrollIntoView({behavior: "smooth"})
+        }
+    }
+
 
     return (
         <>
@@ -71,7 +78,7 @@ function App() {
                         <div className="main-left">
                             <h1>Здесь будет какой-то текст</h1>
                             <p>Расскройте все ваши тайны вместе с потомственными ясновидящими в третьем поколении уже сегодня</p>
-                            <button>
+                            <button onClick={handleClickScroll}>
                                 Оставить заявку
                                 <div></div>
                             </button>
@@ -114,7 +121,7 @@ function App() {
                 </div>
             </div>
 
-            <div className="section-form">
+            <div className="section-form" id={'section-form'}>
                 <div className="container">
                     <div className="form-wrapper">
                         <form onSubmit={e => onSubmit(e)}>
