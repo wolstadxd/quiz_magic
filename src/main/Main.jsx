@@ -1,9 +1,10 @@
-import './App.scss';
-import { useRef, useState} from "react";
+import React, {useRef, useState} from "react";
+import { useNavigate } from 'react-router-dom';
+import '../App.scss';
 import axios from "axios";
-function App() {
 
-    const [isSend, setIsSend] = useState(false);
+
+const Main = () => {
     const [time, setTime] = useState();
     const [name, setName] = useState('');
     const [mail, setMail] = useState('');
@@ -15,6 +16,7 @@ function App() {
     const CHAT_ID = '-1001502848599'
     const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`
 
+    const navigate = useNavigate()
 
     const handleChangeWhatTime = (event) => {
         setTime(event.target.value)
@@ -33,7 +35,7 @@ function App() {
     }
 
     const onSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault()
 
         let message = `Имя: ${name}, Телефон: ${mail}, Страна: ${city}, Время: ${time}`
 
@@ -48,14 +50,13 @@ function App() {
             setName('')
             setMail('')
             setCity('')
-            setIsSend(true)
         }).catch((err) => {
             alert('Что-то пошло не так, попробуйте позже')
             console.warn(err)
         }).finally(() => {
-            setTimeout(() => {
-                setIsSend(false)
-            }, 2500)
+
+            navigate('/thank-you');
+
         })
 
     }
@@ -66,8 +67,6 @@ function App() {
             form.scrollIntoView({behavior: "smooth"})
         }
     }
-
-
     return (
         <>
             <div className="section-main">
@@ -139,10 +138,9 @@ function App() {
                                     <input ref={radioCheckedTimeSecond} type="radio" value="12-14" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'}/>
                                     <label htmlFor="radio">12-14 PM</label>
                                 </div>
-
                             </div>
 
-                            <button type={'submit'}>{isSend ? 'Данные успешно отправлены, ожидайте на звонок!' : 'Отправить данные'}</button>
+                            <button href={'/thank-you'} type={'submit'} >Отправить данные</button>
                         </form>
                         <div className="form-right-image">
                             <div></div>
@@ -150,9 +148,8 @@ function App() {
                     </div>
                 </div>
             </div>
-
         </>
     )
 }
 
-export default App;
+export default Main
