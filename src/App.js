@@ -3,13 +3,11 @@ import { useRef, useState} from "react";
 import axios from "axios";
 function App() {
 
-    const [argument, setArgument] = useState();
-    // const [isChecked, setIsChecked] = useState(false);
+    const [isSend, setIsSend] = useState(false);
     const [time, setTime] = useState();
     const [name, setName] = useState('');
     const [mail, setMail] = useState('');
-    const radioCheckedYes = useRef(null)
-    const radioCheckedNo = useRef(null)
+    const [city, setCity] = useState('');
     const radioCheckedTimeFirst = useRef(null)
     const radioCheckedTimeSecond = useRef(null)
 
@@ -17,10 +15,6 @@ function App() {
     const CHAT_ID = '-1001502848599'
     const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`
 
-
-    const handleChangeYesNo = (event) => {
-        setArgument(event.target.value)
-    }
 
     const handleChangeWhatTime = (event) => {
         setTime(event.target.value)
@@ -34,14 +28,14 @@ function App() {
         setMail(e.target.value)
     }
 
+    const handleChangeValueCity = (e) => {
+        setCity(e.target.value)
+    }
+
     const onSubmit = (event) => {
         event.preventDefault();
 
-        let message = `Ответ да или нет:  `
-        message += `${argument}, time: ${time}`
-        message += `Name: ${name}, Mail: ${mail}`
-
-
+        let message = `Имя: ${name}, Телефон: ${mail}, Страна: ${city}, Время: ${time}`
 
         axios.post(URI_API, {
             chat_id: CHAT_ID,
@@ -49,15 +43,19 @@ function App() {
             text: message,
             disable_notification: true
         }).then(res => {
-            // radioCheckedYes.current.checked = false
-            // radioCheckedNo.current.checked = false
             radioCheckedTimeFirst.current.checked = false
             radioCheckedTimeSecond.current.checked = false
             setName('')
             setMail('')
+            setCity('')
+            setIsSend(true)
         }).catch((err) => {
+            alert('Что-то пошло не так, попробуйте позже')
             console.warn(err)
         }).finally(() => {
+            setTimeout(() => {
+                setIsSend(false)
+            }, 2500)
         })
 
     }
@@ -127,8 +125,9 @@ function App() {
                         <form onSubmit={e => onSubmit(e)}>
                             <div className={'name-number'}>
                                 <h1>Оставьте заявку на консультацию</h1>
-                                <input type="name" placeholder={"Ваше имя"} value={name} onChange={e => handleChangeValueName(e)} name="name"/>
-                                <input type="number" placeholder={"Ваш номер телефона"} value={mail} onChange={e => handleChangeValueMail(e)} name="mail" />
+                                <input type="name" placeholder={"Ваше имя"} required={true} value={name} onChange={e => handleChangeValueName(e)} name="name"/>
+                                <input type="number" placeholder={"Ваш номер телефона"} required={true} value={mail} onChange={e => handleChangeValueMail(e)} name="mail" />
+                                <input type="text" placeholder={"В какой стране вы сейчас?"} required={true} value={city} onChange={e => handleChangeValueCity(e)} name="text" />
                                 <h3>В какое время вам удобно принять наш звонок?</h3>
                             </div>
                             <div className={'what-time'}>
@@ -138,18 +137,12 @@ function App() {
                                 </div>
                                 <div className={'what-time-second'}>
                                     <input ref={radioCheckedTimeSecond} type="radio" value="12-14" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'}/>
-                                    <label htmlFor="radio">12-14 AM</label>
+                                    <label htmlFor="radio">12-14 PM</label>
                                 </div>
 
                             </div>
 
-                            {/*<div className={'yes-or-no'}>*/}
-                            {/*    <h3>Чи цікаво було б вам прийти на консультацію?</h3>*/}
-                            {/*    <input ref={radioCheckedYes} type="radio" value="Yes" onChange={e => handleChangeYesNo(e)} name="yes_or_no" id={'radio'}/> Yes*/}
-                            {/*    <input ref={radioCheckedNo} type="radio" value="No" onChange={e => handleChangeYesNo(e)} name="yes_or_no" id={'radio'} /> No*/}
-                            {/*</div>*/}
-
-                            <button type={'submit'}>Отправить данные</button>
+                            <button type={'submit'}>{isSend ? 'Данные успешно отправлены, ожидайте на звонок!' : 'Отправить данные'}</button>
                         </form>
                         <div className="form-right-image">
                             <div></div>
@@ -157,99 +150,9 @@ function App() {
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
 
 export default App;
-
-// const questions = [
-//     {
-//         questionText: 'Столица США?',
-//         answerOptions: [
-//             {answerText: 'Boston', isCorrect: false},
-//             {answerText: 'Washington', isCorrect: true},
-//             {answerText: 'NueYork', isCorrect: false},
-//             {answerText: 'Los-Angeles', isCorrect: false}
-//         ]
-//     },
-//     {
-//         questionText: 'Столица США?',
-//         answerOptions: [
-//             {answerText: 'Boston', isCorrect: false},
-//             {answerText: 'Washington', isCorrect: true},
-//             {answerText: 'NueYork', isCorrect: false},
-//             {answerText: 'Los-Angeles', isCorrect: false}
-//         ]
-//     },
-//     {
-//         questionText: 'Столица США?',
-//         answerOptions: [
-//             {answerText: 'Boston', isCorrect: false},
-//             {answerText: 'Washington', isCorrect: true},
-//             {answerText: 'NueYork', isCorrect: false},
-//             {answerText: 'Los-Angeles', isCorrect: false}
-//         ]
-//     },
-//     {
-//         questionText: 'Столица США?',
-//         answerOptions: [
-//             {answerText: 'Boston', isCorrect: false},
-//             {answerText: 'Washington', isCorrect: true},
-//             {answerText: 'NueYork', isCorrect: false},
-//             {answerText: 'Los-Angeles', isCorrect: false}
-//         ]
-//     },
-// ]
-//
-// const [currentQuestion, setCurrentQuestion] = useState(0)
-// const [score, setScore] = useState(0)
-// const [showScore, setShowScore] = useState(false)
-//
-// const handleAnswerOptionClick = (isCorrect) => {
-//     if (isCorrect) {
-//         setScore(score + 1)
-//     }
-//
-//     const nextQuestion = currentQuestion + 1
-//     if (nextQuestion < questions.length) {
-//         setCurrentQuestion(nextQuestion)
-//     } else {
-//         setShowScore(true)
-//     }
-// }
-//
-// const refresh = () => {
-//     setCurrentQuestion(0)
-//     setScore(0)
-//     setShowScore(false)
-// }
-//
-// return (
-//     <div className="app">
-//
-//
-//         {
-//             showScore ? (<div className="section__score">
-//                 <div>Правильных ответов {score} из {questions.length}</div>
-//                 <button onClick={refresh} className={'refresh__btn'}>Try again...</button>
-//             </div>) : (
-//                 <div className="quiz">
-//                     <div className="question__section">
-//                         <div className="question__count">
-//                             <span>Вопрос {currentQuestion + 1} </span> / {questions.length}
-//                         </div>
-//                         <div className="question__text">{questions[currentQuestion].questionText}</div>
-//                     </div>
-//                     <div className="answer__section">
-//                         {questions[currentQuestion].answerOptions.map(item => (
-//                             <button onClick={() => handleAnswerOptionClick(item.isCorrect)}>{item.answerText}</button>
-//                         ))}
-//                     </div>
-//                 </div>
-//             )
-//         }
-//
-//
-//     </div>
-// );
