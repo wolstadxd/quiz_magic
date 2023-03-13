@@ -57,12 +57,12 @@ body {
       }
 
       h1 {
-        font-size: 60px;
+        font-size: 48px;
         @media (max-width: 1370px) {
-          font-size: 48px;
+          font-size: 36px;
         }
         @media (max-width: 737px) {
-          font-size: 36px;
+          font-size: 28px;
         }
       }
       p {
@@ -175,6 +175,10 @@ body {
 .image {
   &-first {
     background: url("../public/images/image1.png") no-repeat;
+    background-size: contain;
+  }
+  &-third {
+    background: url("../public/images/image3.png") no-repeat;
     background-size: contain;
   }
 }

@@ -11,6 +11,7 @@ const Main = () => {
     const [city, setCity] = useState('');
     const radioCheckedTimeFirst = useRef(null)
     const radioCheckedTimeSecond = useRef(null)
+    const radioCheckedTimeThird = useRef(null)
 
     const TOKEN = `5933738226:AAHWvvaqOo8m9zgI3AeXiM9cYBqM7QAMeSI`
     const CHAT_ID = '-1001502848599'
@@ -47,6 +48,7 @@ const Main = () => {
         }).then(res => {
             radioCheckedTimeFirst.current.checked = false
             radioCheckedTimeSecond.current.checked = false
+            radioCheckedTimeThird.current.checked = false
             setName('')
             setMail('')
             setCity('')
@@ -73,8 +75,8 @@ const Main = () => {
                 <div className="container">
                     <div className="main-wrapper">
                         <div className="main-left">
-                            <h1>Здесь будет какой-то текст</h1>
-                            <p>Расскройте все ваши тайны вместе с потомственными ясновидящими в третьем поколении уже сегодня</p>
+                            <h1>Мы можем снять магическое воздействие за ОДНИ СУТКИ!</h1>
+                            <p>Раскройте все ваши тайны вместе с потомственными ясновидящими уже сегодня.</p>
                             <button onClick={handleClickScroll}>
                                 Оставить заявку
                                 <div></div>
@@ -85,17 +87,17 @@ const Main = () => {
                             <div className="experts-block">
                                 <div className="experts-item">
                                     <div className="experts-item-image image-first"></div>
-                                    <h2>Хаял Алекперов</h2>
-                                    <p>Потомственный ясновидящий и екстрасенс с уникальным даром от Бога</p>
+                                    <h2>Сулейман Муслимов</h2>
+                                    <p>Целитель в 4 поколении, занимается чисткой ауры, порчи, сглаз, родовые порчи.</p>
                                 </div>
                                 <div className="experts-item">
                                     <div className="experts-item-image image-second"></div>
-                                    <h2>Хаял Алекперов</h2>
-                                    <p>Потомственный ясновидящий и екстрасенс с уникальным даром от Бога</p>
+                                    <h2>Александр Шепс</h2>
+                                    <p>Экстрасенс, таролог, победитель 14-го сезона «Битвы экстрасенсов»</p>
                                 </div>
                                 <div className="experts-item">
                                     <div className="experts-item-image image-third"></div>
-                                    <h2>Хаял Алекперов</h2>
+                                    <h2>Сулейман Муслимов</h2>
                                     <p>Потомственный ясновидящий и екстрасенс с уникальным даром от Бога</p>
                                 </div>
                             </div>
@@ -127,16 +129,20 @@ const Main = () => {
                                 <input type="name" placeholder={"Ваше имя"} required={true} value={name} onChange={e => handleChangeValueName(e)} name="name"/>
                                 <input type="number" placeholder={"Ваш номер телефона"} required={true} value={mail} onChange={e => handleChangeValueMail(e)} name="mail" />
                                 <input type="text" placeholder={"В какой стране вы сейчас?"} required={true} value={city} onChange={e => handleChangeValueCity(e)} name="text" />
-                                <h3>В какое время вам удобно принять наш звонок?</h3>
+                                <h3>В какое время Вам удобно принять наш звонок?</h3>
                             </div>
                             <div className={'what-time'}>
                                 <div className={'what-time-first'}>
-                                    <input ref={radioCheckedTimeFirst} type="radio" value="11-12" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'} />
-                                    <label htmlFor="radio">11-12 AM</label>
+                                    <input ref={radioCheckedTimeFirst} type="radio" value="09:00 - 12:00" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'} />
+                                    <label htmlFor="radio">09:00 - 12:00</label>
                                 </div>
                                 <div className={'what-time-second'}>
-                                    <input ref={radioCheckedTimeSecond} type="radio" value="12-14" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'}/>
-                                    <label htmlFor="radio">12-14 PM</label>
+                                    <input ref={radioCheckedTimeSecond} type="radio" value="13:00 - 17:00" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'}/>
+                                    <label htmlFor="radio">13:00 - 17:00</label>
+                                </div>
+                                <div className={'what-time-second'}>
+                                    <input ref={radioCheckedTimeThird} type="radio" value="18:00 - 20:00" onChange={e => handleChangeWhatTime(e)} name="what-time" id={'radio'}/>
+                                    <label htmlFor="radio">18:00 - 20:00</label>
                                 </div>
                             </div>
 

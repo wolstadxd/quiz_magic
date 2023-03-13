@@ -7,10 +7,12 @@ import './fonts/TTFirsNeue-DemiBold.ttf'
 import './fonts/TTFirsNeue-Medium.ttf'
 import './fonts/TTFirsNeue-Regular.ttf'
 
+const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href')
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter>
+    <BrowserRouter basename={baseUrl}>
         <App />
     </BrowserRouter>
 );

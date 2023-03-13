@@ -1,12 +1,8 @@
-import './App.scss';
-import ThankYou from "./ThankYou/ThankYou";
+import ThankYou from "./ThankYou";
 import {Routes, Route} from "react-router-dom";
 import Main from "./main/Main";
 
 function App() {
-
-
-
 
     return (
         <>
