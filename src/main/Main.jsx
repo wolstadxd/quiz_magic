@@ -1,10 +1,11 @@
 import React, {useRef, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import '../App.scss';
+import {Helmet} from "react-helmet";
 import axios from "axios";
 
-
 const Main = () => {
+
     const [time, setTime] = useState();
     const [name, setName] = useState('');
     const [mail, setMail] = useState('');
@@ -45,7 +46,9 @@ const Main = () => {
             parse_mode: 'html',
             text: message,
             disable_notification: true
+
         }).then(res => {
+            // pixel[1].innerHTML = ''
             radioCheckedTimeFirst.current.checked = false
             radioCheckedTimeSecond.current.checked = false
             radioCheckedTimeThird.current.checked = false
@@ -56,11 +59,9 @@ const Main = () => {
             alert('Что-то пошло не так, попробуйте позже')
             console.warn(err)
         }).finally(() => {
-
-            navigate('/thank-you');
-
+            navigate('/thank-you')
+            window.location.reload();
         })
-
     }
 
     const handleClickScroll = () => {
@@ -69,8 +70,31 @@ const Main = () => {
             form.scrollIntoView({behavior: "smooth"})
         }
     }
+
+
     return (
-        <>
+        <div className={'Main'}>
+            <Helmet>
+                <script>
+                    {`<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '155100287421358');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=155100287421358&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->`}
+                </script>
+            </Helmet>
             <div className="section-main">
                 <div className="container">
                     <div className="main-wrapper">
@@ -145,16 +169,16 @@ const Main = () => {
                                     <label htmlFor="radio">18:00 - 20:00</label>
                                 </div>
                             </div>
-
-                            <button href={'/thank-you'} type={'submit'} >Отправить данные</button>
+                            <button type={'submit'} >Отправить данные</button>
                         </form>
                         <div className="form-right-image">
-                            <div></div>
+                            <div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
